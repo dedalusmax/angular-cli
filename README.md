@@ -28,6 +28,7 @@ cd devarena
 ng serve
 ```
 - browse to the http://localhost:4200
+- split screens with WIN + LEFT
 
 > switch to the presentation slides and explain about Angular CLI
 
@@ -154,6 +155,26 @@ import { MatTableModule } from '@angular/material';
 
 > copy HTML for **sessions.component.html** from the source project
 
+## VARIANT B:
+
+```html
+<clr-datagrid *ngIf="items">
+  <clr-dg-column>Name</clr-dg-column>
+  <clr-dg-column>Speaker</clr-dg-column>
+  <clr-dg-column>Level</clr-dg-column>
+  <clr-dg-column>Time</clr-dg-column>
+
+  <clr-dg-row *ngFor="let item of items">
+      <clr-dg-cell>{{item.name}}</clr-dg-cell>
+      <clr-dg-cell>{{item.speaker}}</clr-dg-cell>
+      <clr-dg-cell>{{item.level}}</clr-dg-cell>
+      <clr-dg-cell>{{item.time}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{items.length}} sessions</clr-dg-footer>
+</clr-datagrid>
+```
+
 - create a model and a service for sessions:
 ```bash
 ng g class conf/shared/models/session
@@ -174,24 +195,20 @@ ng g service conf/shared/services/session -m conf
 ```typescript
 import { Injectable } from '@angular/core';
 import { Session } from '../models/session';
-import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 
 const sessions: Session[] = [
-  {name: 'WEBRTC', speaker: 'Ratko Ćosić, Anabel Li Kečkeš', level: 300, time: '11:15 - 12:00'},
-  {name: 'ANGULAR "CRASH COURSE"', speaker: 'Ratko Ćosić', level: 300, time: '16:15 - 16:35'},
-  {name: 'MOJA PRVA IONIC 3 APLIKACIJA', speaker: 'Dario Vuljanić', level: 400, time: '16:40 - 17:00'}
+  {name: 'WebRTC', speaker: 'Ratko Ćosić, Anabel Li Kečkeš', level: 300, time: '11:15 - 12:00'},
+  {name: 'Angular "Crash Course"', speaker: 'Ratko Ćosić', level: 300, time: '16:15 - 16:35'},
+  {name: 'Moja prva Ionic 3 aplikacija', speaker: 'Dario Vuljanić', level: 400, time: '16:40 - 17:00'}
 ];
 
 @Injectable()
-export class SessionService extends DataSource<any> {
-  connect(): Observable<Session[]> {
-    return Observable.of(sessions);
-  }
-  disconnect() {}
-  add(session: Session) {
-    sessions.push(session);
+export class SessionService {
+
+  constructor() { }
+
+  getSessions() {
+    return sessions;
   }
 }
 ```
@@ -202,6 +219,14 @@ export class SessionService extends DataSource<any> {
 ```typescript
 displayedColumns = ['name', 'speaker', 'level', 'time'];
 constructor(private dataSource: SessionService) { }
+
+OR:
+
+items = [];
+constructor(private service: SessionService) { }
+ngOnInit() {
+  this.items = this.service.getSessions();
+}
 ```
 
 ## Step 4: component interaction
