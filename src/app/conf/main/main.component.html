@@ -1,6 +1,12 @@
-<nav mat-tab-nav-bar>
-  <a mat-tab-link routerLink="sessions" routerLinkActive="active">Sessions</a>
-  <a mat-tab-link routerLink="speakers" routerLinkActive="active">Speakers</a>
-</nav>
-
+<header class="header header-2">
+  <div class="branding">
+    <a href="#" class="nav-link">
+      <span class="title">Ekobit DevArena</span>
+    </a>
+  </div>
+  <div class="header-nav">
+    <a href="#" [routerLink]="['sessions']" routerLinkActive="active" class="active nav-link nav-text">Sessions</a>
+    <a href="#" [routerLink]="['speakers']" routerLinkActive="active" class="nav-link nav-text">Speakers</a>
+  </div>
+</header>
 <router-outlet></router-outlet>

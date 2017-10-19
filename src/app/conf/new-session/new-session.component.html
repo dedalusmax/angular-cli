@@ -1,29 +1,40 @@
-<mat-card style="margin-top: 10px">
-  <mat-card-header>
-    <mat-card-title>Add new session</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="example-container">
-      <mat-form-field>
-        <input matInput placeholder="Name" [(ngModel)]="model.name">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Speaker" [(ngModel)]="model.speaker">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select placeholder="Level" [(ngModel)]="model.level">
-          <mat-option value="100">100</mat-option>
-          <mat-option value="200">200</mat-option>
-          <mat-option value="300">300</mat-option>
-          <mat-option value="400">400</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Time" [(ngModel)]="model.time">
-      </mat-form-field>
-    </div>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="this.added.emit(model)">ADD</button>
-  </mat-card-actions>
-</mat-card>
+<clr-modal [(clrModalOpen)]="opened">
+  <h3 class="modal-title">Add new session</h3>
+  <div class="modal-body">
+    <form #employeeForm="ngForm" (ngSubmit)="opened = false" [hidden]="submitted">
+      <section class="form-block">
+        <label>Add Session Information</label>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <label for="name" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-md tooltip-top-left" [class.invalid]="name.invalid && (name.dirty || name.touched)">
+            <input type="text" id="name" placeholder="Enter session name" required name="name" [(ngModel)]="model.name" #name="ngModel">
+            <span class="tooltip-content">
+              First Name is Required.
+            </span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="speaker">Speaker</label>
+          <label for="speaker" aria-haspopup="true" role="tooltip" class="tooltip tooltip-validation tooltip-md tooltip-top-left" [class.invalid]="speaker.invalid && (speaker.dirty || speaker.touched)">
+            <input type="text" id="speaker" placeholder="Enter speaker name" required name="speaker" [(ngModel)]="model.speaker" #speaker="ngModel">
+            <span class="tooltip-content">
+              Speaker name is Required.
+            </span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label for="level">Level</label>
+          <div class="select">
+            <select id="level" name="level" [(ngModel)]="model.level" required>
+              <option *ngFor="let l of levels" [value]="l">{{l}}</option>
+            </select>
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="opened = false">Cancel</button>
+    <button type="button" class="btn btn-primary" [disabled]="employeeForm.form.invalid" (click)="save(); opened = false">Ok</button>
+  </div>
+</clr-modal>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {SessionService} from '../shared/services/session.service';
+import { SessionService } from '../shared/services/session.service';
 
 @Component({
   selector: 'app-sessions',
@@ -8,14 +8,14 @@ import {SessionService} from '../shared/services/session.service';
 })
 export class SessionsComponent implements OnInit {
 
-  displayedColumns = ['name', 'speaker', 'level', 'time'];
-  constructor(private dataSource: SessionService) { }
+  items = [];
+  constructor(private service: SessionService) { }
 
   ngOnInit() {
+    this.items = this.service.getSessions();
   }
 
-  newSession(session) {
-    this.dataSource.add(session);
-    this.dataSource = new SessionService();
+  added() {
+    this.ngOnInit();
   }
 }

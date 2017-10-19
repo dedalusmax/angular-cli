@@ -1,23 +1,17 @@
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource">
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="speaker">
-      <mat-header-cell *matHeaderCellDef> Speaker </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.speaker}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="level">
-      <mat-header-cell *matHeaderCellDef> Level </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.level}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="time">
-      <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div>
-<app-new-session (added)="newSession($event)"></app-new-session>
+<clr-datagrid *ngIf="items">
+  <clr-dg-column>Name</clr-dg-column>
+  <clr-dg-column>Speaker</clr-dg-column>
+  <clr-dg-column>Level</clr-dg-column>
+  <clr-dg-column>Time</clr-dg-column>
+
+  <clr-dg-row *ngFor="let item of items">
+      <clr-dg-cell>{{item.name}}</clr-dg-cell>
+      <clr-dg-cell>{{item.speaker}}</clr-dg-cell>
+      <clr-dg-cell>{{item.level}}</clr-dg-cell>
+      <clr-dg-cell>{{item.time}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{items.length}} sessions</clr-dg-footer>
+</clr-datagrid>
+<button class="btn btn-primary" (click)="new.opened = true">Add</button>
+<app-new-session #new (added)="newSession($event)"></app-new-session>
