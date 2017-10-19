@@ -36,22 +36,7 @@ ng serve
 - explain the project structure and the configuration
 - open **angular-cli.json** and change: *defaults/component/inlineStyle* to true, and *inlineTemplate* to true
 
-### VARIATION A: including Angular Material
-
-- terminate batch job
-
-```bash
-npm install --save @angular/material @angular/cdk
-npm install --save @angular/animations
-ng serve
-```
-
-- add the import of material theme into **styles.scss**:
-```css
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-```
-
-### VARIATION B: including Clarity Design
+### including Clarity Design
 
 - terminate batch job
 
@@ -92,15 +77,6 @@ ng g component conf/main
 ```typescript
 { path: 'conf', component: MainComponent }
 ```
-
-### VARIANT A:
-
-- add material module into the **conf.module.ts**:
-```typescript
-import { MatTabsModule } from '@angular/material';
-```
-
-### VARIANT B:
 
 - add clarity module into the **conf.module.ts**:
 ```typescript
@@ -148,14 +124,7 @@ ng g component conf/speakers -m conf
 
 ## Step 3: connecting and displaying data
 
-- add material module for table into the **conf.module.ts**:
-```typescript
-import { MatTableModule } from '@angular/material';
-```
-
 > copy HTML for **sessions.component.html** from the source project
-
-## VARIANT B:
 
 ```html
 <clr-datagrid *ngIf="items">
@@ -214,14 +183,9 @@ export class SessionService {
 ```
 
 - in **sessions.component.ts** import the service
-- connect the data source via DI and enlist data columns:
+- connect with DI and call the getSessions method
 
 ```typescript
-displayedColumns = ['name', 'speaker', 'level', 'time'];
-constructor(private dataSource: SessionService) { }
-
-OR:
-
 items = [];
 constructor(private service: SessionService) { }
 ngOnInit() {
@@ -230,11 +194,6 @@ ngOnInit() {
 ```
 
 ## Step 4: component interaction
-
-- add material modules for: card, button, input, select, formfield, into the **conf.module.ts**:
-```typescript
-MatCardModule, MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule
-```
 
 - add new component for new session:
 
@@ -247,6 +206,7 @@ ng g component conf/new-session
 <app-new-session (added)="newSession($event)"></app-new-session>
 ```
 
+### VARIANT A:
 - add animations module into **app.module.ts**:
 
 ```typescript
@@ -257,33 +217,46 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 ```typescript
 import { FormsModule } from '@angular/forms';
-
-```
-
-- add model into the new component: 
-
-```typescript
-import { Session } from '../shared/models/session';
-private model = new Session();
 ```
 
 > copy HTML for **new-session.component.html** from the source project
 
-> copy CSS for **new-session.component.scss** from the source project
-
--- show the app
--- add event to the **new-session.component.ts**: 
+- add the imports for model and service into the newly-added **new-session.component.ts**: 
 
 ```typescript
-  @Output() added = new EventEmitter();
+import { Session } from '../shared/models/session';
+import { SessionService } from '../shared/services/session.service';
 ```
 
--- and connect with the event with a method in the **sessions.component.ts**:
+-- add event, model and levels to the **new-session.component.ts**: 
 
 ```typescript
-  newSession(session) {
-    this.dataSource.add(session);
-    this.dataSource = new SessionService();
+  levels = [100, 200, 300, 400];
+  @Output() added = new EventEmitter();
+  private model = new Session();
+```
+- add DI for the service and save method:
+
+```typescript
+  save() {
+    this.service.storeSession(this.model);
+    this.added.emit();
+  }
+```
+
+- add store method into the **session.service.ts**:
+
+```typescript
+  storeSession(session: Session) {
+    sessions.push(session);
+  }
+```
+
+- and connect with the event with a method in the **sessions.component.ts**:
+
+```typescript
+  added() {
+    this.ngOnInit();
   }
 ```
 
