@@ -8,9 +8,14 @@ import {SessionService} from '../shared/services/session.service';
 })
 export class SessionsComponent implements OnInit {
 
-  displayedColumns = ['id', 'name', 'speaker', 'level', 'time'];
+  displayedColumns = ['name', 'speaker', 'level', 'time'];
   constructor(private dataSource: SessionService) { }
 
   ngOnInit() {
+  }
+
+  newSession(session) {
+    this.dataSource.add(session);
+    this.dataSource = new SessionService();
   }
 }

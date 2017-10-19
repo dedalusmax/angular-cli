@@ -16,4 +16,7 @@ export class SessionService extends DataSource<any> {
     return Observable.of(sessions);
   }
   disconnect() {}
+  add(session: Session) {
+    sessions.push(session);
+  }
 }

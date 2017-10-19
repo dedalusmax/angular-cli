@@ -101,12 +101,12 @@ ng g component conf/speakers -m conf
 
 ## Step 3: connecting and displaying data
 
-> copy HTML for **sessions.component.html** from the source project
-
-- add material module into the **conf.module.ts**:
+- add material module for table into the **conf.module.ts**:
 ```typescript
 import { MatTableModule } from '@angular/material';
 ```
+
+> copy HTML for **sessions.component.html** from the source project
 
 - create a model and a service for sessions:
 ```bash
@@ -117,14 +117,14 @@ ng g service conf/shared/services/session -m conf
 - add properties into the model:
 
 ```typescript
-  id: number;
   name: string;
   speaker: string;
   level: number;
   time: string;
 ```
 
-- copy the code from the source project for the **session.service.ts**:
+> copy the code from the source project for the **session.service.ts**:
+
 ```typescript
 import { Injectable } from '@angular/core';
 import { Session } from '../models/session';
@@ -133,9 +133,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 const sessions: Session[] = [
-  {id: 1, name: 'WEBRTC', speaker: 'Ratko Ćosić, Anabel Li Kečkeš', level: 300, time: '11:15 - 12:00'},
-  {id: 2, name: 'ANGULAR "CRASH COURSE"', speaker: 'Ratko Ćosić', level: 300, time: '16:15 - 16:35'},
-  {id: 3, name: 'MOJA PRVA IONIC 3 APLIKACIJA', speaker: 'Dario Vuljanić', level: 400, time: '16:40 - 17:00'}
+  {name: 'WEBRTC', speaker: 'Ratko Ćosić, Anabel Li Kečkeš', level: 300, time: '11:15 - 12:00'},
+  {name: 'ANGULAR "CRASH COURSE"', speaker: 'Ratko Ćosić', level: 300, time: '16:15 - 16:35'},
+  {name: 'MOJA PRVA IONIC 3 APLIKACIJA', speaker: 'Dario Vuljanić', level: 400, time: '16:40 - 17:00'}
 ];
 
 @Injectable()
@@ -144,6 +144,9 @@ export class SessionService extends DataSource<any> {
     return Observable.of(sessions);
   }
   disconnect() {}
+  add(session: Session) {
+    sessions.push(session);
+  }
 }
 ```
 
@@ -151,9 +154,66 @@ export class SessionService extends DataSource<any> {
 - connect the data source via DI and enlist data columns:
 
 ```typescript
-displayedColumns = ['id', 'name', 'speaker', 'level', 'time'];
+displayedColumns = ['name', 'speaker', 'level', 'time'];
 constructor(private dataSource: SessionService) { }
 ```
 
-## Step 4: component interaction and dialogs
+## Step 4: component interaction
 
+- add material modules for: card, button, input, select, formfield, into the **conf.module.ts**:
+```typescript
+MatCardModule, MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule
+```
+
+- add new component for new session:
+
+```bash
+ng g component conf/new-session
+```
+
+- add reference to the new component inside **sessions.component.html**:
+```html
+<app-new-session (added)="newSession($event)"></app-new-session>
+```
+
+- add animations module into **app.module.ts**:
+
+```typescript
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+```
+
+- add forms module into **conf.module.ts**:
+
+```typescript
+import { FormsModule } from '@angular/forms';
+
+```
+
+- add model into the new component: 
+
+```typescript
+import { Session } from '../shared/models/session';
+private model = new Session();
+```
+
+> copy HTML for **new-session.component.html** from the source project
+
+> copy CSS for **new-session.component.scss** from the source project
+
+-- show the app
+-- add event to the **new-session.component.ts**: 
+
+```typescript
+  @Output() added = new EventEmitter();
+```
+
+-- and connect with the event with a method in the **sessions.component.ts**:
+
+```typescript
+  newSession(session) {
+    this.dataSource.add(session);
+    this.dataSource = new SessionService();
+  }
+```
+
+-- show the app and try to enter some data

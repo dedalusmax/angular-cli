@@ -1,0 +1,29 @@
+<mat-card style="margin-top: 10px">
+  <mat-card-header>
+    <mat-card-title>Add new session</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="example-container">
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="model.name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Speaker" [(ngModel)]="model.speaker">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Level" [(ngModel)]="model.level">
+          <mat-option value="100">100</mat-option>
+          <mat-option value="200">200</mat-option>
+          <mat-option value="300">300</mat-option>
+          <mat-option value="400">400</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Time" [(ngModel)]="model.time">
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)="this.added.emit(model)">ADD</button>
+  </mat-card-actions>
+</mat-card>
