@@ -99,6 +99,61 @@ ng g component conf/speakers -m conf
 
 -show the app
 
+## Step 3: connecting and displaying data
+
 > copy HTML for **sessions.component.html** from the source project
-> copy HTML for **speakers.component.html** from the source project
+
+- add material module into the **conf.module.ts**:
+```typescript
+import { MatTableModule } from '@angular/material';
+```
+
+- create a model and a service for sessions:
+```bash
+ng g class conf/shared/models/session
+ng g service conf/shared/services/session -m conf
+```
+
+- add properties into the model:
+
+```typescript
+  id: number;
+  name: string;
+  speaker: string;
+  level: number;
+  time: string;
+```
+
+- copy the code from the source project for the **session.service.ts**:
+```typescript
+import { Injectable } from '@angular/core';
+import { Session } from '../models/session';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
+const sessions: Session[] = [
+  {id: 1, name: 'WEBRTC', speaker: 'Ratko Ćosić, Anabel Li Kečkeš', level: 300, time: '11:15 - 12:00'},
+  {id: 2, name: 'ANGULAR "CRASH COURSE"', speaker: 'Ratko Ćosić', level: 300, time: '16:15 - 16:35'},
+  {id: 3, name: 'MOJA PRVA IONIC 3 APLIKACIJA', speaker: 'Dario Vuljanić', level: 400, time: '16:40 - 17:00'}
+];
+
+@Injectable()
+export class SessionService extends DataSource<any> {
+  connect(): Observable<Session[]> {
+    return Observable.of(sessions);
+  }
+  disconnect() {}
+}
+```
+
+- in **sessions.component.ts** import the service
+- connect the data source via DI and enlist data columns:
+
+```typescript
+displayedColumns = ['id', 'name', 'speaker', 'level', 'time'];
+constructor(private dataSource: SessionService) { }
+```
+
+## Step 4: component interaction and dialogs
 

@@ -1,3 +1,26 @@
-<p>
-  sessions works!
-</p>
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> Session ID </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="speaker">
+      <mat-header-cell *matHeaderCellDef> Speaker </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.speaker}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="level">
+      <mat-header-cell *matHeaderCellDef> Level </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.level}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.time}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
