@@ -35,7 +35,7 @@ ng serve
 - explain the project structure and the configuration
 - open **angular-cli.json** and change: *defaults/component/inlineStyle* to true, and *inlineTemplate* to true
 
-### including Angular Material
+### VARIATION A: including Angular Material
 
 - terminate batch job
 
@@ -48,6 +48,27 @@ ng serve
 - add the import of material theme into **styles.scss**:
 ```css
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+```
+
+### VARIATION B: including Clarity Design
+
+- terminate batch job
+
+```bash
+npm install @webcomponents/custom-elements@1.0.0 --save
+npm install clarity-icons --save
+npm install clarity-ui --save
+npm install clarity-angular --save
+```
+
+- add the style into the **.angular-cli.json**:
+```json
+"../node_modules/clarity-ui/clarity-ui.min.css"
+```
+
+- start the app
+```bash
+ng serve
 ```
 
 ## Step 2: creating project structure
@@ -71,14 +92,39 @@ ng g component conf/main
 { path: 'conf', component: MainComponent }
 ```
 
-> copy HTML for **main.component.html** from the source project
+### VARIANT A:
 
-- show the app
 - add material module into the **conf.module.ts**:
 ```typescript
 import { MatTabsModule } from '@angular/material';
 ```
 
+### VARIANT B:
+
+- add clarity module into the **conf.module.ts**:
+```typescript
+import { ClarityModule } from "clarity-angular";
+ClarityModule.forRoot()    
+```
+
+> copy HTML for **main.component.html** from the source project
+
+```bash
+<header class="header header-2">
+  <div class="branding">
+    <a href="#" class="nav-link">
+      <span class="title">Ekobit DevArena</span>
+    </a>
+  </div>
+  <div class="header-nav">
+    <a href="#" [routerLink]="['sessions']" routerLinkActive="active" class="active nav-link nav-text">Sessions</a>
+    <a href="#" [routerLink]="['speakers']" routerLinkActive="active" class="nav-link nav-text">Speakers</a>
+  </div>
+</header>
+<router-outlet></router-outlet>
+```
+
+- show the app
 - create new components for sessions and speakers:
 
 ```bash
