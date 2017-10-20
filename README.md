@@ -5,16 +5,15 @@ This session is aiming to demonstrate the ease of development of Angular 4 appli
 Estimated time: 20 min.
 
 ### Preparation 
-> open VS code. open angular-cli project. minimize the browser. open presentation.
+> open VS code. open angular-cli project. open presentation.
 
 ## Step 1: getting the project ready
 
 - open new instance of **Visual Studio Code**
 - open *integrated terminal*
-- only **explain** that CLI needs to be installed, other lines execute:
+- only **explain** that CLI needs to be installed, execute:
 
 ```bash
-npm install -g @angular/cli
 d:
 ng new devarena --minimal --routing --style scss --skip-git -v
 ```
@@ -27,6 +26,8 @@ NOTE: installation usually takes approx. 1 min (for CLI) and 1 min and 20 sec (f
 cd devarena
 ng serve
 ```
+> switch to the presentation (architecture)
+
 - browse to the http://localhost:4200
 - split screens with WIN + LEFT
 
@@ -206,7 +207,6 @@ ng g component conf/new-session
 <app-new-session (added)="newSession($event)"></app-new-session>
 ```
 
-### VARIANT A:
 - add animations module into **app.module.ts**:
 
 ```typescript
