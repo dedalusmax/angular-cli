@@ -5,7 +5,7 @@ This session is aiming to demonstrate the ease of development of Angular 4 appli
 Estimated time: 20 min.
 
 ### Preparation 
-> open VS code. open angular-cli project. open presentation.
+> open VS code. open angular-cli project. (no presentation slides!)
 
 ## Step 1: getting the project ready
 
@@ -15,6 +15,7 @@ Estimated time: 20 min.
 
 ```bash
 d:
+npm install @angular/cli -g
 ng new devarena --minimal --routing --style scss --skip-git -v
 ```
 
@@ -26,12 +27,8 @@ NOTE: installation usually takes approx. 1 min (for CLI) and 1 min and 20 sec (f
 cd devarena
 ng serve
 ```
-> switch to the presentation (architecture)
-
 - browse to the http://localhost:4200
 - split screens with WIN + LEFT
-
-> switch to the presentation slides and explain about Angular CLI
 
 - open folder in VS code 
 - explain the project structure and the configuration
@@ -42,10 +39,7 @@ ng serve
 - terminate batch job
 
 ```bash
-npm install @webcomponents/custom-elements@1.0.0 --save
-npm install clarity-icons --save
-npm install clarity-ui --save
-npm install clarity-angular --save
+npm install @webcomponents/custom-elements@1.0.0 clarity-icons clarity-ui clarity-angular
 ```
 
 - add the style into the **.angular-cli.json**:
@@ -53,7 +47,7 @@ npm install clarity-angular --save
 "../node_modules/clarity-ui/clarity-ui.min.css"
 ```
 
-- start the app
+- serve the app
 ```bash
 ng serve
 ```
@@ -111,7 +105,6 @@ ng g component conf/speakers -m conf
 ```
 
 - copy two imports for these components from **main.component.ts**
-- add imports into **main-routing.component.ts** 
 - add child routes so that the routes look like this:
 ```typescript
   { path: 'conf', component: MainComponent, children: [
@@ -180,6 +173,10 @@ export class SessionService {
   getSessions() {
     return sessions;
   }
+  
+  storeSession(session: Session) {
+    sessions.push(session);
+  }
 }
 ```
 
@@ -221,13 +218,6 @@ import { FormsModule } from '@angular/forms';
 
 > copy HTML for **new-session.component.html** from the source project
 
-- add the imports for model and service into the newly-added **new-session.component.ts**: 
-
-```typescript
-import { Session } from '../shared/models/session';
-import { SessionService } from '../shared/services/session.service';
-```
-
 -- add event, model and levels to the **new-session.component.ts**: 
 
 ```typescript
@@ -241,14 +231,6 @@ import { SessionService } from '../shared/services/session.service';
   save() {
     this.service.storeSession(this.model);
     this.added.emit();
-  }
-```
-
-- add store method into the **session.service.ts**:
-
-```typescript
-  storeSession(session: Session) {
-    sessions.push(session);
   }
 ```
 
